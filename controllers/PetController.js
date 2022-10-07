@@ -19,10 +19,7 @@ module.exports = class PetController {
     //Disponibilidade de adoção do pet
     const available = true
 
-    //Upload de várias imagens
-
-
-    //Validações
+     //Validações
     if(!name) {
       res.status(422).json({ message: 'O nome é obrigatório'})
       return
@@ -73,7 +70,7 @@ module.exports = class PetController {
     //Tratar erros
     try{
       const newPet = await pet.save() //método do mongoose
-      res.status(201).json({message: 'Pet cadastrado com sucesso', newPet})
+      res.status(201).json({message: 'Pet cadastrado com sucesso', newPet,})
     } 
     catch(error){
       res.status(500).json({message: error})
@@ -98,11 +95,11 @@ module.exports = class PetController {
     //No find, 'user._id' como filtro e user._id como variável
     const pets = await Pet.find({ 'user._id': user._id }).sort('-createdAt')  
     
-    res.status(200).json({ pets: pets, })  
+    res.status(200).json({ pets, })  
   }
 
   //Pegar os pets adotados pelo usuário
-  static async getAllUserAdoption(req, res) {
+  static async getAllUserAdoptions(req, res) {
 
     //Pegar o usuário dono do pet
     const token = getToken(req)
@@ -111,7 +108,7 @@ module.exports = class PetController {
     //No find, 'user._id' como filtro e user._id como variável
     const pets = await Pet.find({ 'adopter._id': user._id }).sort('-createdAt')  
     
-    res.status(200).json({ pets: pets, })  
+    res.status(200).json({ pets, })  
   }
 
   //Pegar os pets pelo seu id
@@ -121,7 +118,7 @@ module.exports = class PetController {
 
     //Checa a validade do id
     if(!ObjectId.isValid(id)) {
-      res.status(422).json({ message: 'Id inválido' })
+      res.status(422).json({ message: 'ID inválido' })
       return
     }  
     
@@ -142,7 +139,7 @@ module.exports = class PetController {
 
     //Checa a validade do id
     if(!ObjectId.isValid(id)) {
-      res.status(422).json({ message: 'Id inválido' })
+      res.status(422).json({ message: 'ID inválido' })
       return
     } 
     
@@ -151,18 +148,92 @@ module.exports = class PetController {
 
     if(!pet) {
       res.status(404).json({ message: 'Pet não encontrado' })
+      return
     } 
     
-    res.status(200).json({ pet: pet, })
-    
-    /* **************Testar no Postman******************** */
     //Verificar se o usuário logado é o mesmo que registrou o pet
     const token = getToken(req)
     const user = await getUserByToken(token)
 
     if(pet.user._id.toString() !== user._id.toString()) {
       res.status(422).json({ message: 'Houve um erro! Não foi possivel processar a sua solicitação, tente mais tarde' })
+      return
     }
+
+    await Pet.findByIdAndRemove(id)
+
+    res.status(200).json({ message: 'Pet removido com sucesso'})
+  }
+
+  static async updatePet(req, res) {
+
+    const id = req.params.id
+
+    const {name, age, weigth, color, available} = req.body
+
+    //De onde vem as imagens - files no plural por se tratar de várias imagens
+    const images = req.files
+
+    const updateData = {}
+
+    //Verificar se o pet existe
+    const pet = await Pet.findOne({ _id: id })
+
+    if (!pet) {
+      res.status(404).json({ message: 'Pet não encontrado!' })
+      return
+    }
+
+    //Verificar se o usuário logado é o mesmo que registrou o pet
+    const token = getToken(req)
+    const user = await getUserByToken(token)
+
+    if(pet.user._id.toString() !== user._id.toString()) {
+      res.status(422).json({ message: 'Houve um erro! Não foi possivel processar a sua solicitação, tente mais tarde' })
+      return
+    }
+
+    //Validações
+    if(!name) {
+    res.status(422).json({ message: 'O nome é obrigatório'})
+    return
+    } else {
+      updatedData.name = name
+    }
+
+    if(!age) {
+      res.status(422).json({ message: 'A idade é obrigatória'})
+      return
+    } else {
+      updatedData.age = age
+    }
+
+    if(!weigth) {
+      res.status(422).json({ message: 'O peso é obrigatório'})
+      return
+    } else {
+      updatedData.weigth = weigth
+    }
+
+    if(!color) {
+      res.status(422).json({ message: 'A cor é obrigatória'})
+      return
+    } else {
+      updatedData.color = color
+    }
+
+    if(images.length === 0 ) {
+      res.status(422).json({ message: 'A imagem é obrigatória'})
+      return
+    } else {
+      updatedData.images = []
+      images.map((image) => {
+        updateData.images.push(image.filename)
+      })
+    }
+
+
 
   }
 }
+

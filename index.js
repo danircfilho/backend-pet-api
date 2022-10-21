@@ -8,7 +8,7 @@ const app = express()
 app.use(express.json())
 
 //Resolver o CORS - acessar a api no memso domínio
-app.use(cors({ credentials: true, origin: 'http://apinode1.kinghost.net:21344' }))
+app.use(cors({ credentials: true, origin: 'http://apinode1.kinghost.net:21324' }))
 
 //Receber as imagens da pasta Public
 app.use(express.static('public'))
@@ -22,4 +22,4 @@ app.use('/users', UserRoutes)
 app.use('/pets', PetRoutes)
 
 
-app.listen(21344)
+app.listen(21324)

@@ -1,13 +1,15 @@
 const express = require('express')
 const cors = require('cors')
-const { application } = require('express')
+//const { application } = require('express')
+
+require ('dotenv').config()
 
 const app = express()
 
 //Configurar respostas (response) JSON
 app.use(express.json())
 
-//Resolver o CORS - acessar a api no memso domínio
+//Resolver o CORS - acessar a api no mesmo domínio
 app.use(cors({ credentials: true, origin: 'http://apinode1.kinghost.net:21324' }))
 
 //Receber as imagens da pasta Public
@@ -21,5 +23,5 @@ const PetRoutes = require('./routes/PetRoutes')
 app.use('/users', UserRoutes)
 app.use('/pets', PetRoutes)
 
-
-app.listen(21324)
+//const PORT = process.env.PORT
+app.listen(5000)

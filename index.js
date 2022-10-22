@@ -9,7 +9,7 @@ const app = express()
 app.use(express.json())
 
 //Resolver o CORS - acessar a api no mesmo domínio (React)
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }))
+app.use(cors({ credentials: true, origin: 'https://classy-lamington-9f4dae.netlify.app/' }))
 
 //Receber as imagens da pasta Public
 app.use(express.static('public'))

@@ -1,5 +1,5 @@
 const express = require('express')
-//const cors = require('cors')
+const cors = require('cors')
 
 require ('dotenv').config()
 
@@ -11,7 +11,7 @@ app.use(express.json())
 //Resolver o CORS - acessar a api no mesmo domínio local (React)
 //app.use(cors({ credentials: true, origin: 'http://localhost:3000' }))
 
-//app.use(cors({ credentials: true, origin: 'https://aesthetic-kitsune-b7311f.netlify.app/' }))
+app.use(cors({ credentials: true, origin: 'https://golden-gaufre-adf290.netlify.app' }))
 
 //Receber as imagens da pasta Public
 app.use(express.static('public'))

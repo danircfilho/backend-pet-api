@@ -9,7 +9,7 @@ const app = express()
 app.use(express.json())
 
 //Resolver o CORS - acessar a api no mesmo servidor local (React)
-app.use(cors({ credentials: true, origin: 'https://node-api-01.onrender.com' }))
+app.use(cors({ credentials: true, origin: 'https://splendid-douhua-f8cfef.netlify.app' }))
 
 //Receber as imagens da pasta Public
 app.use(express.static('public'))

@@ -24,4 +24,5 @@ app.use('/pets', PetRoutes)
 
 //const PORT = process.env.PORT || 3000
 //Porta API
-app.listen(3000)
+//app.listen(3000)
+app.listen(0.0.0.0:$PORT)

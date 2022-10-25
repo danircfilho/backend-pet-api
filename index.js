@@ -1,17 +1,15 @@
 const express = require('express')
 const cors = require('cors')
 
-require ('dotenv').config()
+//require ('dotenv').config()
 
 const app = express()
 
 //Configurar respostas (response) JSON
 app.use(express.json())
 
-//Resolver o CORS - acessar a api no mesmo domínio local (React)
-//app.use(cors({ credentials: true, origin: 'http://localhost:3000' }))
-
-app.use(cors({ credentials: true, origin: 'https://node-api-01.onrender.com' }))
+//Resolver o CORS - URL da origem (solicitante da requisição)
+app.use(cors({ credentials: true, origin: 'https://zippy-kulfi-4fca17.netlify.app' }))
 
 //Receber as imagens da pasta Public
 app.use(express.static('public'))
@@ -28,3 +26,6 @@ app.use('/pets', PetRoutes)
 const PORT = process.env.PORT || 3000
 
 app.listen(PORT)
+
+//app.listen(3000) - usar direto no localhost
+

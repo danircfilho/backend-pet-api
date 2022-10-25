@@ -9,7 +9,7 @@ const app = express()
 app.use(express.json())
 
 //Resolver o CORS - URL da origem (solicitante da requisição)
-app.use(cors({ credentials: true, origin: 'https://zippy-kulfi-4fca17.netlify.app' }))
+app.use(cors({ credentials: true, origin: 'https://magnificent-sunburst-a1ddce.netlify.app/' }))
 
 //Receber as imagens da pasta Public
 app.use(express.static('public'))

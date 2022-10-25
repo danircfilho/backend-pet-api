@@ -24,6 +24,7 @@ const PetRoutes = require('./routes/PetRoutes')
 app.use('/users', UserRoutes)
 app.use('/pets', PetRoutes)
 
-//const PORT = process.env.PORT
 //Porta API
-app.listen(5000)
+const PORT = process.env.PORT || 3000
+
+app.listen(PORT)
